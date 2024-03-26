@@ -1,0 +1,25 @@
+void StartAddress()
+{
+    while (!GetModuleHandleA("serverbrowser.dll"))
+        Sleep(1000);
+ 
+    auto EngineClient = CreateInterface("engine.dll", "VEngineClient014");
+
+    EngineClient->ExecuteClientCmd("setinfo cl_accountprivacysetting1 1");
+    EngineClient->ExecuteClientCmd("cl_inventory_radial_immediate_select 0");
+    EngineClient->ExecuteClientCmd("cl_inventory_radial_tap_to_cycle 0");
+    EngineClient->ExecuteClientCmd("cl_ping_fade_deadzone 0");
+    EngineClient->ExecuteClientCmd("cl_ping_fade_distance 0");
+    EngineClient->ExecuteClientCmd("cl_parachute_autodeploy 0");
+    EngineClient->ExecuteClientCmd("cl_language english");
+    EngineClient->ExecuteClientCmd("clear");
+    EngineClient->ExecuteClientCmd("toggleconsole");
+    
+    Sleep(1000);
+
+    ConMsg("[t.me/pidorlanes] proxy handler was successfully loaded \n");
+}
+
+BOOL DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+    return fdwReason == 1 && CreateThread(0, 0, StartAddress, 0, 0, 0);
+}
